@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { calculateBestPostingTime } from "../lib/calculatePostingTime";
+import { getPostingTimeResult } from "../actions/getPostingTimeResult";
 
 export default function PostingTime() {
   const [result, setResult] = useState<{
@@ -9,8 +9,9 @@ export default function PostingTime() {
     timesItWasPeak: number;
   } | null>(null);
 
-  function handleClick() {
-    setResult(calculateBestPostingTime());
+  async function handleClick() {
+    const data = await getPostingTimeResult();
+    setResult(data);
   }
 
   return (
@@ -28,11 +29,6 @@ export default function PostingTime() {
           Out of {result.daysAnalyzed} days analyzed,{" "}
           <span className="font-semibold text-pink-600">{result.mostCommonHour}:00</span>{" "}
           was your top-performing hour on {result.timesItWasPeak} of those days.
-          {result.daysAnalyzed < 8 && (
-            <span className="block mt-2 text-sm text-gray-500">
-              This recommendation is based on a small sample — post more consistently for a more reliable result.
-            </span>
-          )}
         </p>
       )}
     </div>

@@ -1,9 +1,10 @@
-import { mockVideos } from "../dataa/mockVideos";
 
-export function calculateBestPostingTime() {
+export function calculateBestPostingTime(
+    videos: { postedAt: string; views: number }[]
+) {
   const videosByDay: Record<string, { hour: number; views: number }[]> = {};
 
-  mockVideos.forEach((video: { postedAt: string; views: number }) => {
+  videos.forEach((video: { postedAt: string; views: number }) => {
     const date = new Date(video.postedAt);
     const day = date.toISOString().split("T")[0];
     const hour = date.getHours();
