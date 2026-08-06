@@ -1,8 +1,6 @@
 const API_KEY = process.env.YOUTUBE_API_KEY;
-const CHANNEL_ID = "UCsPnWr79s_eoWQgQW3hKtlQ";
 
-export async function fetchYoutubeVideos() {
-  // 1. Get the channel's uploads playlist ID
+export async function fetchYoutubeVideos(CHANNEL_ID: string) {  // 1. Get the channel's uploads playlist ID
   const channelRes = await fetch(
     `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`
   );

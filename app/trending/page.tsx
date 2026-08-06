@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import {getTrendingSongs} from "../lib/getTrendingSongs";
+import { getTrendingSongsResult } from "../actions/getTrendingSongsResult";
 
 export default function Trending() {
   const [results, setResults] = useState<{
-  song: string;
-  artist: string;
-  percentIncrease: number;
-}[]>([]);
+    title: string;
+    postedAt: string;
+    views: number;
+  }[]>([]);
 
-  function handleClick() {
-      setResults(getTrendingSongs());
-    }
+  async function handleClick() {
+    const data = await getTrendingSongsResult();
+    setResults(data);
+  }
 
   return (
     <div className="p-8 text-white">
@@ -25,15 +26,15 @@ export default function Trending() {
         Generate trending songs
       </button>
 
-    {results.length > 0 && (
-      <ul className="mt-6 space-y-2">
-        {results.map((item) => (
-          <li key={item.song} className="text-lg">
-            {item.song} by {item.artist} ({item.percentIncrease.toFixed(2)}% increase)
-          </li>
-        ))}
-      </ul>
-    )}    
-</div>
+      {results.length > 0 && (
+        <ul className="mt-6 space-y-2">
+          {results.map((item) => (
+            <li key={item.title} className="text-lg">
+              {item.title} — {item.views.toLocaleString()} views
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

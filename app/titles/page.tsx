@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { comparePattern } from "../lib/compareTitlePatterns";
-import { hasQuestionMark, hasGroupName } from "../lib/titleCheckers";
-import { mockTitles } from "../dataa/mockTitles";
+import { getTitleResults } from "../actions/getTitleResults";
 
 export default function titleRec() {
   const [questionMarkResult, setQuestionMarkResult] = useState<string | null>(null);
   const [groupNameResult, setGroupNameResult] = useState<string | null>(null);
 
-  function handleClick() {
-    setQuestionMarkResult(comparePattern(mockTitles, hasQuestionMark));
-    setGroupNameResult(comparePattern(mockTitles, hasGroupName));
-  }
+  async function handleClick() {
+  const data = await getTitleResults();
+  setQuestionMarkResult(data.questionMarkResult);
+  setGroupNameResult(data.groupNameResult);
+}
 
   return (
     <div className="p-8 text-white">
@@ -25,8 +24,8 @@ export default function titleRec() {
         Generate title recommendations
       </button>
 
-      {questionMarkResult && <p className="mt-6 text-lg">{questionMarkResult}</p>}
-      {groupNameResult && <p className="mt-6 text-lg">{groupNameResult}</p>}
+      {questionMarkResult && <p className="mt-6 text-lg">Question marks: {questionMarkResult}</p>}
+      {groupNameResult && <p className="mt-6 text-lg">Group names: {groupNameResult}</p>}
     </div>
   );
 }
