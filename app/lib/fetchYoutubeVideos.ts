@@ -28,5 +28,7 @@ export async function fetchYoutubeVideos(CHANNEL_ID: string) {  // 1. Get the ch
     title: video.snippet.title,
     postedAt: video.snippet.publishedAt,
     views: Number(video.statistics.viewCount),
+    likeCount: Number(video.statistics.likeCount),
+    commentCount: Number(video.statistics.commentCount),
   }));
 }

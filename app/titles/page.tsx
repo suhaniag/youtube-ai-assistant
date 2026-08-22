@@ -2,15 +2,20 @@
 
 import { useState } from "react";
 import { getTitleResults } from "../actions/getTitleResults";
+import { getTitleInsight } from "../actions/getTitleInsight";
 
 export default function titleRec() {
   const [questionMarkResult, setQuestionMarkResult] = useState<string | null>(null);
   const [groupNameResult, setGroupNameResult] = useState<string | null>(null);
+  const [aiInsight, setAiInsight] = useState<string | null>(null);
 
   async function handleClick() {
-  const data = await getTitleResults();
-  setQuestionMarkResult(data.questionMarkResult);
-  setGroupNameResult(data.groupNameResult);
+    const data = await getTitleResults();
+    setQuestionMarkResult(data.questionMarkResult);
+    setGroupNameResult(data.groupNameResult);
+
+    const insight = await getTitleInsight();
+    setAiInsight(insight);
 }
 
   return (
@@ -26,6 +31,12 @@ export default function titleRec() {
 
       {questionMarkResult && <p className="mt-6 text-lg">Question marks: {questionMarkResult}</p>}
       {groupNameResult && <p className="mt-6 text-lg">Group names: {groupNameResult}</p>}
+      {aiInsight && (
+        <div className="mt-6 p-4 bg-pink-50 rounded-2xl">
+          <p className="font-semibold text-black mb-2">AI Insight:</p>
+          <p className="whitespace-pre-line text-black">{aiInsight}</p>
+        </div>
+)}
     </div>
   );
 }
